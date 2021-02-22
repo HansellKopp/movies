@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Movie } from 'src/app/interfaces/now-playing';
 import { MoviesService } from 'src/app/services/movies.service';
 
@@ -8,7 +8,7 @@ import { MoviesService } from 'src/app/services/movies.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private service: MoviesService) { }
 
@@ -18,4 +18,7 @@ export class HomeComponent implements OnInit {
     
   }
 
+  ngOnDestroy(): void {
+    this.service.resetPage()
+  }
 }
