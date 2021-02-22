@@ -40,6 +40,10 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.env
+src/environments/environment.local.ts
+*.http
+*.lock
 
 # System Files
 .DS_Store
