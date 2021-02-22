@@ -36,3 +36,11 @@ hr{
 :root {
     --swiper-theme-color: #fff;
 }
+
+.clickable {
+    &:hover {
+        cursor: pointer;
+        filter: brightness(75%);
+        transform: translateX(1px) translateY(-1px);    
+    }
+}

@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { Movie } from 'src/app/interfaces/now-playing';
 import { MoviesService } from 'src/app/services/movies.service';
 
@@ -12,7 +13,8 @@ export class MoviesGridComponent implements OnInit {
   @Input('movies')
   movies: Movie[] = []
 
-  constructor(private service: MoviesService) { }
+  constructor(private service: MoviesService,
+              private router: Router) { }
 
 
   @HostListener('window:scroll',['$event'] )
@@ -29,6 +31,11 @@ export class MoviesGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onClick(movie: Movie) {
+    console.log(movie)
+    this.router.navigate(['movie', movie.id])
   }
 
 }

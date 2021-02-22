@@ -1,5 +1,9 @@
-<div class="row">
-    <div class="col-md-3 mb-5" *ngFor="let movie of movies">
+<div class="row ">
+    <div 
+        class="col-md-3 mb-5 clickable" 
+        *ngFor="let movie of movies"
+        (click)="onClick(movie)"
+    >
         <img 
             class="img-fluid poster"
             [src]="movie.poster_path | movieAsset"
