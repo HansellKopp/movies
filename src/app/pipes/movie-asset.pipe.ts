@@ -8,7 +8,7 @@ export class MovieAssetPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
   
-  transform(value: string): SafeUrl {
+  transform(value?: string): SafeUrl {
     if(!value) {
       return './assets/images/no-image.jpg'
     }

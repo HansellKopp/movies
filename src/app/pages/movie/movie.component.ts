@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Credits } from 'src/app/interfaces/credits';
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { Cast } from 'src/app/interfaces/credits';
 import { MovieDetails } from 'src/app/interfaces/movie-details';
 import { MoviesService } from 'src/app/services/movies.service';
-
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
@@ -14,28 +14,29 @@ export class MovieComponent implements OnInit {
 
   id: string = ''
   movie?: MovieDetails
-  credits?: Credits
+  cast?: Cast[]
   constructor(
     private activeRoute: ActivatedRoute,
     private service: MoviesService,
-    private location: Location
+    private location: Location,
+    private router: Router
     ) { 
-    this.id = activeRoute.snapshot.params['id']
-    this.loadMovie()
+    this.id = this.activeRoute.snapshot.params['id']
   }
-
+  
   ngOnInit(): void {
-  }
-
-  loadMovie() {
-    this.service.movieDetails(this.id).subscribe(
-      data=> {
-        this.movie=data
-        this.service.movieCredits(this.id).subscribe(
-          credits=> this.credits=credits
-        )
+    let movie = this.service.movieDetails(this.id)
+    let cast = this.service.movieCredits(this.id)
+    forkJoin([movie, cast])
+    .subscribe(results => {
+      this.movie=results[0]
+      if(!this.movie.id) {
+         this.router.navigate(['home'])
       }
-    )
+      this.cast=results[1].filter(person=> person.profile_path)
+    })
+    
+
   }
 
   onGoBack() {
