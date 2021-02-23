@@ -5,17 +5,21 @@ import { SearchComponent } from './search/search.component';
 import { AppRoutingModule } from 'src/app/app-routing.module'
 import { ComponentsModule } from '../components/components.module';
 import { MovieComponent } from './movie/movie.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { RatingModule } from 'ng-starrating';
 
 @NgModule({
   declarations: [
     HomeComponent,
     SearchComponent,
-    MovieComponent
+    MovieComponent,
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule,
+    RatingModule,
   ],
   exports: [
     
