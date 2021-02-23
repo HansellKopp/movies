@@ -3,7 +3,7 @@
         <!-- Imagen -->
         <img [src]="movie.poster_path | movieAsset" 
              [alt]="movie.title"
-             class="img-thumbnail">
+             class="img-thumbnail animate__animated animate__fadeIn">
     </div>
 
     <div class="col-md-6">
@@ -38,5 +38,11 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <app-cast-slideshow [cast]="cast"></app-cast-slideshow>
     </div>
 </div>
