@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { NowPlaying, Movie } from 'src/app/interfaces/now-playing'
+import { Credits, Cast } from '../interfaces/credits';
 import { MovieDetails } from '../interfaces/movie-details';
 import { environment } from 'src/environments/environment'
 
@@ -13,12 +14,11 @@ export class MoviesService {
   page=1
   loading=false
   baseUrl = 'https://api.themoviedb.org/3'
-  apiKey  = environment.apiKey
   constructor(private http: HttpClient) { }
 
   get params() { 
   return {
-    api_key: this.apiKey,
+    api_key: environment.apiKey,
     language:'en-US',
     sort_by:'popularity.desc',
     include_adult:'false',
@@ -53,18 +53,19 @@ export class MoviesService {
 
   movieDetails(id: string): Observable<MovieDetails> {
     const p = {
-      api_key: this.apiKey
+      api_key: environment.apiKey
     }
     return this.http.get<MovieDetails>(`${this.baseUrl}/movie/${id}`,{ params: p})
-                    .pipe(map((resp) => resp))
+                    .pipe(catchError(err=> of(<MovieDetails>{})))
   }
 
-  movieCredits(id: string): Observable<any> {
+  movieCredits(id: string): Observable<Cast[]> {
     const p = {
-      api_key: this.apiKey
+      api_key: environment.apiKey
     }
-    return this.http.get<any>(`${this.baseUrl}/movie/${id}/credits`,{ params: p})
-                    .pipe(map((resp) => resp.results))
+    return this.http.get<Credits>(`${this.baseUrl}/movie/${id}/credits`,{ params: p})
+                    .pipe(map((credits: Credits) => credits.cast),
+                     catchError(err=> of(<Cast[]>[])))
   }
 
 }
