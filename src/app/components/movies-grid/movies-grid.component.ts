@@ -34,7 +34,6 @@ export class MoviesGridComponent implements OnInit {
   }
 
   onClick(movie: Movie) {
-    console.log(movie)
     this.router.navigate(['movie', movie.id])
   }
 
